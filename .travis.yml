@@ -1,16 +1,21 @@
 language: generic 
+
 #dar permissoes de super user para executar o build
 sudo: required
+
 # Indicar que precisamos do docker CLI instalado
 services:
   - docker
+
 # Comandos que vão ser executados antes de o teste correr
 # Neste caso é o build da imagem do docker 
 before_install:
   - docker build -t goncalomac/docker-react -f Dockerfile.dev .
+
 # Contém um conjunto de comandos que precisam de ser executados para correr o conjunto de testes
 script:
   - docker run -e CI=true goncalomac/docker-react npm run test
+
 # Comunicação com travis para levar fazer deploy da app no AWS
 deploy:
   # Conjunto de instruções para implementar automaticamente a app 
@@ -22,5 +27,7 @@ deploy:
   bucket_path: "docker-react"
   on:
     branch: master
-
-
+  access_key_id: 
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
