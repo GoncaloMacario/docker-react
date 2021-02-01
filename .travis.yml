@@ -11,3 +11,16 @@ before_install:
 # Contém um conjunto de comandos que precisam de ser executados para correr o conjunto de testes
 script:
   - docker run -e CI=true goncalomac/docker-react npm run test
+# Comunicação com travis para levar fazer deploy da app no AWS
+deploy:
+  # Conjunto de instruções para implementar automaticamente a app 
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-2-566134048410"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+
+
